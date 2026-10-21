@@ -474,7 +474,7 @@ module_param(slmk_vmpressure, short, 0644);
 static int simple_lmk_vmpressure_cb(struct notifier_block *nb,
 				    unsigned long pressure, void *data)
 {
-	if (pressure >= slmk_vmpressure) {
+	if (pressure >= slmk_vmpressure && slmk_minfree > 0) {
 		atomic_set(&needs_reclaim, 1);
 		smp_mb__after_atomic();
 		if (waitqueue_active(&oom_waitq))
